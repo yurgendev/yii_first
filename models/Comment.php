@@ -8,6 +8,13 @@ use Yii;
  * This is the model class for table "comment".
  *
  * @property int $id
+ * @property string $text
+ * @property int $user_id
+ * @property int $article_id
+ * @property int $status
+ *
+ * @property Article $article
+ * @property User $user
  */
 class Comment extends \yii\db\ActiveRecord
 {
@@ -24,7 +31,13 @@ class Comment extends \yii\db\ActiveRecord
      */
     public function rules()
     {
-        return [];
+        return [
+            [['text', 'user_id', 'article_id'], 'required'],
+            [['user_id', 'article_id', 'status'], 'integer'],
+            [['text'], 'string', 'max' => 255],
+            [['article_id'], 'exist', 'skipOnError' => true, 'targetClass' => Article::class, 'targetAttribute' => ['article_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
+        ];
     }
 
     /**
@@ -34,6 +47,30 @@ class Comment extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'text' => 'Text',
+            'user_id' => 'User ID',
+            'article_id' => 'Article ID',
+            'status' => 'Status',
         ];
+    }
+
+    /**
+     * Gets query for [[Article]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getArticle()
+    {
+        return $this->hasOne(Article::class, ['id' => 'article_id']);
+    }
+
+    /**
+     * Gets query for [[User]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 }

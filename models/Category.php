@@ -8,6 +8,9 @@ use Yii;
  * This is the model class for table "category".
  *
  * @property int $id
+ * @property string $title
+ *
+ * @property Article[] $articles
  */
 class Category extends \yii\db\ActiveRecord
 {
@@ -24,7 +27,10 @@ class Category extends \yii\db\ActiveRecord
      */
     public function rules()
     {
-        return [];
+        return [
+            [['title'], 'required'],
+            [['title'], 'string', 'max' => 255],
+        ];
     }
 
     /**
@@ -34,6 +40,17 @@ class Category extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'title' => 'Title',
         ];
+    }
+
+    /**
+     * Gets query for [[Articles]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getArticles()
+    {
+        return $this->hasMany(Article::class, ['category_id' => 'id']);
     }
 }
