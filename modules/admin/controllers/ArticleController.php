@@ -1,7 +1,8 @@
 <?php
-
 namespace app\modules\admin\controllers;
 
+use Yii;
+use app\models\ImageUpload; 
 use app\models\Article;
 use app\models\ArticleSearch;
 use yii\web\Controller;
@@ -130,5 +131,20 @@ class ArticleController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    /**
+     * Sets an image for an existing Article model.
+     * @param int $id ID
+     * @return string|\yii\web\Response
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    
+
+    public function actionSetImage($id)
+    {
+        $model = new ImageUpload;
+
+        return $this->render('image', ['model' => $model]);
     }
 }

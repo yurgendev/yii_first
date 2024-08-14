@@ -39,13 +39,12 @@ class Article extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'content', 'date', 'user_id', 'category_id'], 'required'],
+            [['title', 'content'], 'required'],
             [['content'], 'string'],
+            [['category_id', 'user_id'], 'integer'],
+            [['title', 'description'], 'string', 'max' => 255],
             [['date'], 'safe'],
-            [['viewed', 'user_id', 'status', 'category_id'], 'integer'],
-            [['title', 'description', 'image'], 'string', 'max' => 255],
-            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
+            [['category_id', 'user_id'], 'default', 'value' => null],
         ];
     }
 
@@ -60,11 +59,8 @@ class Article extends \yii\db\ActiveRecord
             'description' => 'Description',
             'content' => 'Content',
             'date' => 'Date',
-            'image' => 'Image',
-            'viewed' => 'Viewed',
-            'user_id' => 'User ID',
-            'status' => 'Status',
-            'category_id' => 'Category ID',
+            'category_id' => 'Category',
+            'user_id' => 'User',
         ];
     }
 
