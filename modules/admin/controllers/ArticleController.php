@@ -3,6 +3,7 @@ namespace app\modules\admin\controllers;
 
 use Yii;
 use app\models\ImageUpload; 
+use app\models\uploadFile;  
 use app\models\Article;
 use app\models\ArticleSearch;
 use yii\web\Controller;
@@ -11,6 +12,10 @@ use yii\filters\VerbFilter;
 
 use app\models\User;
 use app\models\Category;
+use yii\web\UploadedFile;
+
+
+
 
 /**
  * ArticleController implements the CRUD actions for Article model.
@@ -149,10 +154,22 @@ class ArticleController extends Controller
      */
     
 
-    public function actionSetImage($id)
-    {
-        $model = new ImageUpload;
-
-        return $this->render('image', ['model' => $model]);
-    }
+     public function actionSetImage($id)
+     {
+         $model = new ImageUpload;
+ 
+         if (Yii::$app->request->isPost)
+         {
+             $article = $this->findModel($id);
+             $file = UploadedFile::getInstance($model, 'image');
+             
+ 
+             if($article->saveImage($model->uploadFile($file, $article->image)))
+             {
+                 return $this->redirect(['view', 'id'=>$article->id]);
+             }
+         }
+         
+         return $this->render('image', ['model'=>$model]);
+     }
 }

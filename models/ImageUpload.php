@@ -31,6 +31,7 @@ class ImageUpload extends Model{
 
     }
 
+
     private function getFolder()
     {
         return Yii::getAlias('@web') . 'uploads/';
@@ -51,7 +52,7 @@ class ImageUpload extends Model{
 
     public function fileExists($currentImage)
     {
-        if(!empty($currentImage) && $currentImage != null)
+        if(!empty($currentImage) and $currentImage != null)
         {
             return file_exists($this->getFolder() . $currentImage);
         }

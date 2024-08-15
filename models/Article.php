@@ -64,6 +64,27 @@ class Article extends \yii\db\ActiveRecord
         ];
     }
 
+    public function saveImage($filename)
+        {
+            $this->image = $filename;
+            return $this->save(false);
+        }   
+
+    public function deleteImage($id)
+    {
+        $imageUploadModel = new ImageUpload();
+        $imageUploadModel->deleteCurrentImage($this->image);
+    }
+    public function beforeDelete()
+    {
+        $this->deleteImage($this->id);
+        return parent::beforeDelete();
+    }
+
+    public function getImage()
+    {
+        return ($this->image) ? '/uploads/' . $this->image : '/no-image.png';
+    }
     /**
      * Gets query for [[ArticleTags]].
      *
@@ -104,3 +125,4 @@ class Article extends \yii\db\ActiveRecord
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 }
+
