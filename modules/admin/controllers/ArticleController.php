@@ -9,6 +9,9 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+use app\models\User;
+use app\models\Category;
+
 /**
  * ArticleController implements the CRUD actions for Article model.
  */
@@ -66,10 +69,13 @@ class ArticleController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
+    
     public function actionCreate()
     {
         $model = new Article();
-
+        $users = User::find()->select(['id', 'name'])->all();
+        $categories = Category::find()->select(['id', 'title'])->all();
+    
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -77,9 +83,11 @@ class ArticleController extends Controller
         } else {
             $model->loadDefaultValues();
         }
-
+    
         return $this->render('create', [
             'model' => $model,
+            'users' => $users,
+            'categories' => $categories,
         ]);
     }
 

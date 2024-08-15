@@ -1,22 +1,16 @@
 <?php
-
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use yii\helpers\ArrayHelper;
-use app\models\Category;
-use app\models\User;
 
-/** @var yii\web\View $this */
-/** @var app\models\Article $model */
-/** @var yii\widgets\ActiveForm $form */
+/* @var $this yii\web\View */
+/* @var $model app\models\Article */
+/* @var $form yii\widgets\ActiveForm */
+/* @var $users app\models\User[] */
+/* @var $categories app\models\Category[] */
 
-// Получаем список категорий
-$categories = Category::find()->all();
-$categoryItems = ArrayHelper::map($categories, 'id', 'name');
-
-// Получаем список пользователей
-$users = User::find()->all();
-$userItems = ArrayHelper::map($users, 'id', 'userfname');
+$userItems = ArrayHelper::map($users, 'id', 'name');
+$categoryItems = ArrayHelper::map($categories, 'id', 'title');
 ?>
 
 <div class="article-form">
@@ -25,15 +19,15 @@ $userItems = ArrayHelper::map($users, 'id', 'userfname');
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'content')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'date')->textInput() ?>
 
-    <?= $form->field($model, 'user_id')->dropDownList($userItems, ['prompt' => 'Выберите пользователя']) ?>
+    <?= $form->field($model, 'user_id')->dropDownList($userItems, ['prompt' => 'Select User']) ?>
 
-    <?= $form->field($model, 'category_id')->dropDownList($categoryItems, ['prompt' => 'Выберите категорию']) ?>
+    <?= $form->field($model, 'category_id')->dropDownList($categoryItems, ['prompt' => 'Select Category']) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
