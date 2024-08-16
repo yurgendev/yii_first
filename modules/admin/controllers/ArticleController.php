@@ -172,4 +172,19 @@ class ArticleController extends Controller
          
          return $this->render('image', ['model'=>$model]);
      }
+     
+    public function actionSetCategory($id)
+    {
+        $article = $this->findModel($id);
+        $categories = Category::find()->all(); // Получаем все категории из базы данных
+
+        if ($article->load(Yii::$app->request->post()) && $article->save()) {
+            return $this->redirect(['view', 'id' => $article->id]);
+        }
+
+        return $this->render('category', [
+            'article' => $article,
+            'categories' => $categories,
+        ]);
+    }
 }

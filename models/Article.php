@@ -81,6 +81,8 @@ class Article extends \yii\db\ActiveRecord
         return parent::beforeDelete();
     }
 
+
+
     public function getImage()
     {
         return ($this->image) ? '/uploads/' . $this->image : '/no-image.png';
@@ -124,5 +126,7 @@ class Article extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
+
+    
 }
 
