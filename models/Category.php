@@ -53,4 +53,11 @@ class Category extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Article::class, ['category_id' => 'id']);
     }
+    public function getArticleTitles()
+    {
+        return implode(', ', array_map(function ($article) {
+            return $article->title;
+        }, $this->articles));
+    }
 }
+

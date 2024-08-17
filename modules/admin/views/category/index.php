@@ -1,4 +1,7 @@
 <?php
+// app/views/category/index.php
+
+
 
 use app\models\Category;
 use yii\helpers\Html;
@@ -28,8 +31,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'title', 'id',
+            'title',
+            'id',
+            [
+                'label' => 'Articles',
+                'value' => function ($model) {
+                    return $model->articleTitles;
+                },
+            ],
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Category $model, $key, $index, $column) {
