@@ -53,4 +53,11 @@ class Tag extends \yii\db\ActiveRecord
     {
         return $this->hasMany(ArticleTag::class, ['tag_id' => 'id']);
     }
+    
+    public function getArticleTitles()
+    {
+        return implode(', ', array_map(function ($articleTag) {
+            return $articleTag->article->title;
+        }, $this->articleTags));
+    }
 }

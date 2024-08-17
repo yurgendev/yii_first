@@ -21,15 +21,19 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Tag', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'title', 'id',
+            'title',
+            'id',
+            [
+                'label' => 'Articles',
+                'value' => function ($model) {
+                    return $model->articleTitles;
+                },
+            ],
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Tag $model, $key, $index, $column) {
