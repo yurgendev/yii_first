@@ -17,6 +17,7 @@ use Yii;
  * @property int $user_id
  * @property int $status
  * @property int $category_id
+ * @property array $tagsArray
  *
  * @property ArticleTag[] $articleTags
  * @property Category $category
@@ -25,6 +26,8 @@ use Yii;
  */
 class Article extends \yii\db\ActiveRecord
 {
+    public $tagsArray = [];
+
     /**
      * {@inheritdoc}
      */
@@ -45,6 +48,7 @@ class Article extends \yii\db\ActiveRecord
             [['title', 'description'], 'string', 'max' => 255],
             [['date'], 'safe'],
             [['category_id', 'user_id'], 'default', 'value' => null],
+            [['tagsArray'], 'safe'], 
         ];
     }
 
@@ -65,28 +69,28 @@ class Article extends \yii\db\ActiveRecord
     }
 
     public function saveImage($filename)
-        {
-            $this->image = $filename;
-            return $this->save(false);
-        }   
+    {
+        $this->image = $filename;
+        return $this->save(false);
+    }   
 
     public function deleteImage($id)
     {
         $imageUploadModel = new ImageUpload();
         $imageUploadModel->deleteCurrentImage($this->image);
     }
+
     public function beforeDelete()
     {
         $this->deleteImage($this->id);
         return parent::beforeDelete();
     }
 
-
-
     public function getImage()
     {
         return ($this->image) ? '/uploads/' . $this->image : '/no-image.png';
     }
+
     /**
      * Gets query for [[ArticleTags]].
      *
@@ -127,6 +131,32 @@ class Article extends \yii\db\ActiveRecord
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
-    
-}
+    public function afterFind()
+    {
+        parent::afterFind();
+        $this->tagsArray = $this->getTags()->select('id')->column();
+    }
 
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        $this->saveTags();
+    }
+
+    public function saveTags()
+    {
+        $this->unlinkAll('tags', true);
+        if (is_array($this->tagsArray)) {
+            foreach ($this->tagsArray as $tagId) {
+                $tag = Tag::findOne($tagId);
+                $this->link('tags', $tag);
+            }
+        }
+    }
+
+    public function getTags()
+    {
+        return $this->hasMany(Tag::class, ['id' => 'tag_id'])
+                    ->viaTable('article_tag', ['article_id' => 'id']);
+    }
+}

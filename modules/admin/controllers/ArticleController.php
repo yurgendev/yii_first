@@ -3,7 +3,7 @@ namespace app\modules\admin\controllers;
 
 use Yii;
 use app\models\ImageUpload; 
-use app\models\uploadFile;  
+use yii\web\UploadedFile;
 use app\models\Article;
 use app\models\ArticleSearch;
 use yii\web\Controller;
@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 
 use app\models\User;
 use app\models\Category;
-use yii\web\UploadedFile;
+use app\models\Tag;
 
 
 
@@ -187,4 +187,20 @@ class ArticleController extends Controller
             'categories' => $categories,
         ]);
     }
+
+    public function actionSetTags($id)
+    {
+        $article = $this->findModel($id);
+        $tags = Tag::find()->all(); // Получаем все теги из базы данных
+        
+
+        if ($article->load(Yii::$app->request->post()) && $article->save()) {
+            return $this->redirect(['view', 'id' => $article->id]);
+        }
+
+        return $this->render('tags', [
+            'article' => $article,
+            'tags' => $tags,
+        ]);
+    }    
 }
