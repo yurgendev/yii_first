@@ -17,25 +17,25 @@ use yii\web\AssetBundle;
  */
 class PublicAsset extends AssetBundle
 {
-    public $basePath = '@webroot/markup/';
-    public $baseUrl = '@web/markup/';
+    public $basePath = '@webroot';
+    public $baseUrl = '@web'; 
     public $css = [
-        "assets/css/bootstrap.min.css",
-        "assets/css/font-awesome.min.css",
-        "assets/css/animate.min.css",
-        "assets/css/owl.carousel.css",
-        "assets/css/owl.theme.css",
-        "assets/css/owl.transitions.css",
-        "assets/css/style.css",
-        "assets/css/responsive.css"
+        "public/css/bootstrap.min.css",
+        "public/css/font-awesome.min.css",
+        "public/css/animate.min.css",
+        "public/css/owl.carousel.css",
+        "public/css/owl.theme.css",
+        "public/css/owl.transitions.css",
+        "public/css/style.css",
+        "public/css/responsive.css"
     ];
     public $js = [
-        "assets/js/jquery-1.11.3.min.js",
-        "assets/js/bootstrap.min.js",
-        "assets/js/owl.carousel.min.js",
-        "assets/js/jquery.stickit.min.js",
-        "assets/js/menu.js",
-        "assets/js/scripts.js",
+        "public/js/jquery-1.11.3.min.js",
+        "public/js/bootstrap.min.js",
+        "public/js/owl.carousel.min.js",
+        "public/js/jquery.stickit.min.js",
+        "public/js/menu.js",
+        "public/js/scripts.js",
     ];
     public $depends = [
         
