@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models;
+use yii\data\Pagination;
 
 use Yii;
 
@@ -59,5 +60,14 @@ class Category extends \yii\db\ActiveRecord
             return $article->title;
         }, $this->articles));
     }
-}
 
+    public function getArticlesCount()
+    {
+        return $this->getArticles()->count();
+
+    }
+    public static function getAll()
+    {
+        return Category::find()->all(); 
+    }
+}

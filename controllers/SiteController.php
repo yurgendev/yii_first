@@ -13,6 +13,7 @@ use app\models\Article;
 use yii\data\Pagination;
 use app\models\Category;
 
+
 class SiteController extends Controller
 {
     /**
@@ -64,22 +65,15 @@ class SiteController extends Controller
      */
     function actionIndex()
     {
-        $query = Article::find();
-        $count = $query->count();
-        $pagination = new Pagination(['totalCount' => $count, 'pageSize' => 1]);
-
-        $articles = $query->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->all();
-        
-        $popular = Article::find()->orderBy('viewed desc')->limit(3)->all(); // Получение популярных статей
-        $recent = Article::find()->orderBy('date asc')->limit(4)->all(); // Получение недавних статей
-        $categories = Category::find()->all(); // Получение категорий
+        $data = Article::getAll(1);
+        $popular = Article::getPopular();
+        $recent = Article::getRecent();
+        $categories = Category::getAll();
 
 
         return $this->render('index', [
-            'articles' => $articles,
-            'pagination' => $pagination,
+            'articles' => $data['articles'],
+            'pagination' => $data['pagination'],
             'popular' => $popular,
             'recent' => $recent,
             'categories' => $categories,
