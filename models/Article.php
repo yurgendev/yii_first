@@ -159,4 +159,9 @@ class Article extends \yii\db\ActiveRecord
         return $this->hasMany(Tag::class, ['id' => 'tag_id'])
                     ->viaTable('article_tag', ['article_id' => 'id']);
     }
+
+    public function getDate()
+    {
+        return Yii::$app->formatter->asDate($this->date, 'long');
+    }
 }
