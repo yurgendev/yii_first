@@ -1,3 +1,6 @@
+<?php
+use yii\helpers\Url;
+?>
 <!--main content start-->
 <div class="main-content">
     <div class="container">
@@ -9,9 +12,7 @@
                     </div>
                     <div class="post-content">
                         <header class="entry-header text-center text-uppercase">
-                            <h6><a href="#"> Travel</a></h6>
-
-                            <h1 class="entry-title"><a href="blog.html">Home is peaceful place</a></h1>
+                        <h6><a href="<?= Url::toRoute(['site/category', 'id'=>$article->category->id]);?>"><?= $article->title?></a></h6>                            <h1 class="entry-title"><a href="blog.html">Home is peaceful place</a></h1>
 
 
                         </header>

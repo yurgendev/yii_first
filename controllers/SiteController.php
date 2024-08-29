@@ -86,7 +86,7 @@ class SiteController extends Controller
         $popular = Article::getPopular();
         $recent = Article::getRecent();
         $categories = Category::getAll();
-        
+
         return $this->render('single', [
             'article' => $article,
             'popular' => $popular,
@@ -95,9 +95,30 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionCategory()
+    public function actionCategory($id)
     {
-        return $this->render('category');
+        $query = Article::find()->where(['category_id' => $id]);
+        $count = $query->count();
+        $pagination = new Pagination(['totalCount' => $count, 'pageSize' => 6]);
+        
+
+        $articles = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+        
+        $data ['articles'] = $articles;
+        $data ['pagination'] = $pagination;
+        $popular = Article::getPopular();
+        $recent = Article::getRecent();
+        $categories = Category::getAll();
+
+        return $this->render('category', [
+            'articles' => $data['articles'],
+            'pagination' => $data['pagination'],
+            'popular' => $popular,
+            'recent' => $recent,
+            'categories' => $categories,
+        ]);
     }
     /**
      * Login action.
