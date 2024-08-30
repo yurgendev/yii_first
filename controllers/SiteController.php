@@ -97,17 +97,7 @@ class SiteController extends Controller
 
     public function actionCategory($id)
     {
-        $query = Article::find()->where(['category_id' => $id]);
-        $count = $query->count();
-        $pagination = new Pagination(['totalCount' => $count, 'pageSize' => 6]);
-        
-
-        $articles = $query->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->all();
-        
-        $data ['articles'] = $articles;
-        $data ['pagination'] = $pagination;
+        $data = Category::getArticlesByCategory($id);
         $popular = Article::getPopular();
         $recent = Article::getRecent();
         $categories = Category::getAll();
