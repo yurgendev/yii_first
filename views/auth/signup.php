@@ -28,15 +28,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ]); ?>
 
-            <?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
+            <?= $form->field($model, 'name')->textInput(['autofocus' => true]) ?>
+            <?= $form->field($model, 'email')->textInput() ?>
 
             <?= $form->field($model, 'password')->passwordInput() ?>
 
-            <?= $form->field($model, 'rememberMe')->checkbox([
-                'template' => "<div class=\"form-check\">{input} {label}</div>\n{error}",
-                'labelOptions' => ['class' => 'form-check-label'],
-                'inputOptions' => ['class' => 'form-check-input'],
-            ]) ?>
+            
 
             <div class="form-group">
                 <div>

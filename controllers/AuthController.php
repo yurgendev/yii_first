@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\LoginForm;
 use app\models\User;
+use app\models\SignupForm;
 
 class AuthController extends \yii\web\Controller
 {
@@ -35,6 +36,21 @@ class AuthController extends \yii\web\Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+
+    public function  actionSignup()
+    {
+        $model = new SignupForm();
+
+        if(Yii::$app->request->isPost)
+        {
+            $model->load(Yii::$app->request->post());
+            if($model->signup())
+            {
+                return $this->redirect(['auth/login']);
+            }
+        }
+        return $this->render('signup', ['model'=>$model]);
     }
 
     public function actionTest()
