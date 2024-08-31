@@ -1,8 +1,14 @@
 <?php
-namespace app
 
+namespace app\controllers;
 
-public function actionLogin()
+use Yii;
+use app\models\LoginForm;
+use app\models\User;
+
+class AuthController extends \yii\web\Controller
+{
+    public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
@@ -30,3 +36,19 @@ public function actionLogin()
 
         return $this->goHome();
     }
+
+    public function actionTest()
+    {
+        $user = User::findOne(1);
+        Yii::$app->user->logout($user);
+
+        if(Yii::$app->user->isGuest)
+        {
+            echo "Guest";
+        }
+        else
+        {
+            echo "User";
+        }
+    }
+}

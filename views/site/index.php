@@ -1,4 +1,5 @@
 <?php
+
 use yii\widgets\LinkPager;
 use yii\helpers\Url;
 ?>
@@ -7,7 +8,7 @@ use yii\helpers\Url;
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-                <?php foreach($articles as $article): ?>
+                <?php foreach ($articles as $article): ?>
                     <article class="post">
                         <div class="post-thumb">
                             <a href="<?= Url::to(['site/view', 'id' => $article->id]); ?>">
@@ -19,13 +20,13 @@ use yii\helpers\Url;
                         </div>
                         <div class="post-content">
                             <header class="entry-header text-center text-uppercase">
-                                <h6><a href="<?= Url::toRoute(['site/category', 'id'=>$article->category->id]);?>"><?= $article->category->title; ?></a></h6>
-                                <h1 class="entry-title"><a href="<?= Url::toRoute(['site/view', 'id'=>$article->id]);?>"><?= $article->title; ?></a></h1>
+                                <h6><a href="<?= Url::toRoute(['site/category', 'id' => $article->category->id]); ?>"><?= $article->category->title; ?></a></h6>
+                                <h1 class="entry-title"><a href="<?= Url::toRoute(['site/view', 'id' => $article->id]); ?>"><?= $article->title; ?></a></h1>
                             </header>
                             <div class="entry-content">
                                 <p><?= $article->description ?></p>
                                 <div class="btn-continue-reading text-center text-uppercase">
-                                    <a href="<?= Url::toRoute(['site/view', 'id'=>$article->id]);?>" class="more-link">Continue Reading</a>
+                                    <a href="<?= Url::toRoute(['site/view', 'id' => $article->id]); ?>" class="more-link">Continue Reading</a>
                                 </div>
                             </div>
                             <div class="social-share">
@@ -37,7 +38,7 @@ use yii\helpers\Url;
                             </div>
                         </div>
                     </article>
-                <?php endforeach; ?>    
+                <?php endforeach; ?>
 
                 <?php
                 echo LinkPager::widget([
@@ -45,11 +46,11 @@ use yii\helpers\Url;
                 ]);
                 ?>
             </div>
-            <?=$this->render('/partials/sidebar', [
-            'popular' => $popular,
-            'recent' => $recent,
-            'categories' => $categories,
-            ])?>
+            <?= $this->render('/partials/sidebar', [
+                'popular' => $popular,
+                'recent' => $recent,
+                'categories' => $categories,
+            ]) ?>
         </div>
     </div>
 </div>

@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Url;
+use yii\helpers\Html;
 ?>
 <!--main content start-->
 <div class="main-content">
@@ -12,14 +13,16 @@ use yii\helpers\Url;
                     </div>
                     <div class="post-content">
                         <header class="entry-header text-center text-uppercase">
-                            <h6><a href="<?= Url::toRoute(['site/category', 'id' => $article->category->id]); ?>"><?= htmlspecialchars($article->category->title); ?></a></h6>
-                            <h1 class="entry-title"><a href="<?= Url::toRoute(['site/view', 'id' => $article->id]); ?>"><?= htmlspecialchars($article->title); ?></a></h1>
+                            <h6><a href="<?= Url::toRoute(['site/category', 'id' => $article->category->id]); ?>"><?= Html::encode($article->category->title); ?></a></h6>
+                            <h1 class="entry-title"><a href="<?= Url::toRoute(['site/view', 'id' => $article->id]); ?>"><?= Html::encode($article->title); ?></a></h1>
                         </header>
                         <div class="entry-content">
-                            <p><?= htmlspecialchars($article->content); ?></p>
+                            <p><?= Html::encode($article->content); ?></p>
                         </div>
                         <div class="social-share">
                             <span class="social-share-title pull-left text-capitalize">By Author <?= $article->getDate(); ?></span>
+                            
+                            
                         </div>
                     </div>
                 </article>

@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\web\IdentityInterface;
+
 
 /**
  * This is the model class for table "user".
@@ -17,8 +19,45 @@ use Yii;
  * @property Article[] $articles
  * @property Comment[] $comments
  */
-class User extends \yii\db\ActiveRecord
+class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
+    /**
+     * {@inheritdoc}
+     */
+    public static function findIdentity($id)
+    {
+        return User::findOne($id);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAuthKey()
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function validateAuthKey($authKey)
+    {
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -42,7 +81,7 @@ class User extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -59,7 +98,7 @@ class User extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getArticles()
+    public function getArticles(): \yii\db\ActiveQuery
     {
         return $this->hasMany(Article::class, ['user_id' => 'id']);
     }
@@ -69,8 +108,18 @@ class User extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getComments()
+    public function getComments(): \yii\db\ActiveQuery
     {
         return $this->hasMany(Comment::class, ['user_id' => 'id']);
+    }
+
+    public static function findByUsername($username)
+    {
+        return User::find()->where(['name' => $username])->one();
+    }
+
+    public function validatePassword($password)
+    {
+        return $this->password === $password;
     }
 }
